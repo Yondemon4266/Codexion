@@ -1,9 +1,18 @@
 
+#include "data.h"
+
 static int ft_isspace(char c)
 {
     if ((c >= 9 && c <= 13) || c == 32)
-        return (0);
-    return 1;
+        return EXIT_SUCCESS;
+    return EXIT_FAILURE;
+}
+
+static int ft_is_digit(char c)
+{
+    if (c >= '0' && c <= '9')
+        return EXIT_SUCCESS;
+    return EXIT_FAILURE;
 }
 
 long    ft_atoi(char *s)
@@ -31,6 +40,8 @@ long    ft_atoi(char *s)
             result = (result * 10) + (s[i] - '0');
             i++;
         }
+        if (ft_is_digit(s[i]) == EXIT_FAILURE)
+            return 
         i++;
         return (result * sign);
     }

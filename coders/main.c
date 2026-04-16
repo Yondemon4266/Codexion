@@ -50,7 +50,7 @@ int    fill_data_struct(t_data *data, char **av)
         data->scheduler = av[7];
     else
     {
-        fprintf(stderr, "Error, scheduler must be 'end' or 'fifo'\n");
+        fprintf(stderr, "Error, scheduler must be 'edf' or 'fifo'\n");
         return (EXIT_FAILURE);
     }
 
