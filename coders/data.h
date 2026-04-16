@@ -6,6 +6,10 @@
 #include <stdio.h>
 #include <limits.h>
 
+
+# define SUCCESS 0
+# define ERROR 1
+
 typedef struct s_data
 {
     int nb_coders;
@@ -20,6 +24,8 @@ typedef struct s_data
 } t_data;
 
 
-long    ft_atoi(char *s);
+int fill_data_struct(t_data *data, char **av);
+void    print_data_structure(t_data *data);
+void    init_data_struct(t_data *data);
 
 #endif

@@ -9,7 +9,8 @@ SRC = coders
 
 BUILD_DIR = .build
 
-C_FILES = $(SRC)/main.c $(SRC)/ft_atoi.c
+C_FILES = $(SRC)/main.c $(SRC)/parsing.c $(SRC)/init.c \
+		$(SRC)/utils.c $(SRC)/monitor.c $(SRC)/routine.c 
 
 O_FILES = $(C_FILES:%.c=$(BUILD_DIR)/%.o)
 
