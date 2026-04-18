@@ -24,6 +24,12 @@ typedef struct s_data
 } t_data;
 
 
+// typedef struct s_dongle
+// {
+    
+// } t_dongle
+
+
 int fill_data_struct(t_data *data, char **av);
 void    print_data_structure(t_data *data);
 void    init_data_struct(t_data *data);
