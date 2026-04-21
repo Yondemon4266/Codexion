@@ -2,6 +2,12 @@
 #include "data.h"
 
 
+void    init_coder(void)
+{
+    pthread.c
+}
+
+
 int main(int ac, char **av)
 {
     t_data data;
@@ -22,6 +28,15 @@ int main(int ac, char **av)
             data.nb_coders, data.scheduler);
     print_data_structure(&data);
     
+    int i;
+
+    i = 0;
+
+    while (i < data.nb_coders)
+    {
+        
+        i++;
+    } 
 
     return (EXIT_SUCCESS);
 }
