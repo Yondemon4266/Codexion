@@ -9,8 +9,9 @@ SRC = coders
 
 BUILD_DIR = .build
 
-C_FILES = $(SRC)/main.c $(SRC)/parsing.c $(SRC)/init.c \
-		$(SRC)/utils.c $(SRC)/monitor.c $(SRC)/routine.c 
+C_FILES = $(SRC)/main.c $(SRC)/parsing.c $(SRC)/init_data.c \
+		$(SRC)/utils.c $(SRC)/monitor.c $(SRC)/routine.c \
+		$(SRC)/fill_dongles_coders.c
 
 O_FILES = $(C_FILES:%.c=$(BUILD_DIR)/%.o)
 
