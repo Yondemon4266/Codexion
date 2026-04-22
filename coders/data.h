@@ -47,6 +47,6 @@ void				print_error_arguments(void);
 int					init_all_data(t_data *data, int ac, char **av);
 int					fill_dongles_coders(t_data *data);
 int					parse_data(t_data *data, char **av);
-void				free_dongles(t_dongle *dongles, int dongle_len);
+void				cleanup_all(t_data *data);
 
 #endif

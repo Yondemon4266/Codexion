@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 16:25:18 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/22 16:25:19 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/22 17:23:06 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,6 @@ int	init_all_data(t_data *data, int ac, char **av)
 	if (parse_data(data, av) == ERROR)
 		return (ERROR);
 	if (fill_dongles_coders(data) == ERROR)
-	{
-		free_dongles(data->dongles, data->nb_coders);
 		return (ERROR);
-	}
 	return (SUCCESS);
 }

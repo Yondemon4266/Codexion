@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 15:22:15 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/22 16:11:42 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/22 17:22:43 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,12 @@ void	print_error_arguments(void)
 				"t_debug t_refactor nb_comp t_cooldown scheduler\n"));
 }
 
-void	free_dongles(t_dongle *dongles, int dongle_len)
+
+
+static void	free_dongles(t_dongle *dongles, int dongle_len)
 {
+	if (!dongles)
+		return ;
 	int i;
 
 	i = 0;
@@ -32,3 +36,10 @@ void	free_dongles(t_dongle *dongles, int dongle_len)
 	}
 	free(dongles);
 }
+
+void	cleanup_all(t_data *data)
+{
+	free_dongles(data->dongles, data->nb_coders);
+	free(data->coders);
+}
+

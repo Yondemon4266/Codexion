@@ -20,7 +20,7 @@ INCLUDES = $(SRC)/data.h
 DEPS = $(O_FILES:.o=.d)
 
 $(NAME): $(O_FILES)
-	$(CC) $(CFLAGS) -g3 $(O_FILES) -o $(NAME)
+	$(CC) $(CFLAGS) $(O_FILES) -o $(NAME)
 
 all: $(NAME)
 
@@ -37,5 +37,9 @@ fclean: clean
 
 re: fclean all
 
+chleak: 
+	valgrind --leak-check=full --show-leak-kinds=all ./codexion 4 800 200 200 200 5 100 fifo
+	
+valg:
 
 .PHONY: all clean fclean re
