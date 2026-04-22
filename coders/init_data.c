@@ -1,7 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_data.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/22 16:25:18 by aluslu            #+#    #+#             */
+/*   Updated: 2026/04/22 16:25:19 by aluslu           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "data.h"
 
-void	init_data(t_data *data)
+static void	init_data(t_data *data)
 {
 	data->nb_coders = 0;
 	data->time_to_burnout = 0;
@@ -15,39 +26,20 @@ void	init_data(t_data *data)
 	data->dongles = NULL;
 }
 
-int	init_dongles(t_data *data)
+int	init_all_data(t_data *data, int ac, char **av)
 {
-	int	i;
-
-	data->dongles = (t_dongle *)malloc(sizeof(t_dongle) * (data->nb_coders));
-	if (!(data->dongles))
-		return (ERROR);
-	i = 0;
-	while (i < data->nb_coders)
+	if (ac != 9)
 	{
-		data->dongles[i].released_time = 0;
-		pthread_mutex_init(&(data->dongles[i].mutex), NULL);
-		i++;
+		print_error_arguments();
+		return (ERROR);
 	}
-	return (SUCCESS);
-}
-
-int	init_coders(t_data *data)
-{
-	data->coders = (t_coder *)malloc(sizeof(t_coder) * (data->nb_coders));
-	if (!(data->coders))
+	init_data(data);
+	if (parse_data(data, av) == ERROR)
 		return (ERROR);
-
-	int i;
-
-	i = 0;
-	while (i < data->nb_coders)
+	if (fill_dongles_coders(data) == ERROR)
 	{
-		data->coders[i].id = 0;
-		data->coders[i].times_compiled = 0;
-		data->coders[i].left_dongle = NULL;
-		data->coders[i].right_dongle = NULL;
-		i++;
+		free_dongles(data->dongles, data->nb_coders);
+		return (ERROR);
 	}
 	return (SUCCESS);
 }

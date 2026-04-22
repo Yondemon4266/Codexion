@@ -9,9 +9,9 @@ SRC = coders
 
 BUILD_DIR = .build
 
-C_FILES = $(SRC)/main.c $(SRC)/parsing.c $(SRC)/init_data.c \
+C_FILES = $(SRC)/main.c $(SRC)/parse_data.c $(SRC)/init_data.c \
 		$(SRC)/utils.c $(SRC)/monitor.c $(SRC)/routine.c \
-		$(SRC)/fill_dongles_coders.c
+		$(SRC)/fill_dongles_coders.c $(SRC)/cleanup.c
 
 O_FILES = $(C_FILES:%.c=$(BUILD_DIR)/%.o)
 
@@ -20,7 +20,7 @@ INCLUDES = $(SRC)/data.h
 DEPS = $(O_FILES:.o=.d)
 
 $(NAME): $(O_FILES)
-	$(CC) $(CFLAGS) $(O_FILES) -o $(NAME)
+	$(CC) $(CFLAGS) -g3 $(O_FILES) -o $(NAME)
 
 all: $(NAME)
 

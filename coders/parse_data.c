@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_data.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/22 16:25:27 by aluslu            #+#    #+#             */
+/*   Updated: 2026/04/22 16:25:28 by aluslu           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "data.h"
 
@@ -38,7 +49,7 @@ int	parse_data(t_data *data, char **av)
 	{
 		fprintf(stderr,
 			"Error: Arguments must be positive integers (0 to INT_MAX)\n");
-		return (EXIT_FAILURE);
+		return (ERROR);
 	}
 
 	if (strcmp(av[7], "fifo") == 0 || strcmp(av[7], "edf") == 0)
@@ -46,8 +57,8 @@ int	parse_data(t_data *data, char **av)
 	else
 	{
 		fprintf(stderr, "Error: Scheduler must be 'edf' or 'fifo'\n");
-		return (EXIT_FAILURE);
+		return (ERROR);
 	}
 
-	return (EXIT_SUCCESS);
+	return (SUCCESS);
 }

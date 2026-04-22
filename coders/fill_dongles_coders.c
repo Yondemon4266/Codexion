@@ -1,34 +1,51 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fill_dongles_coders.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/22 16:25:14 by aluslu            #+#    #+#             */
+/*   Updated: 2026/04/22 17:04:47 by aluslu           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "data.h"
 
-static void	fill_dongles(t_data *data)
+static int	init_dongles(t_data *data)
 {
 	int	i;
 
+	data->dongles = (t_dongle *)malloc(sizeof(t_dongle) * (data->nb_coders));
+	if (!(data->dongles))
+		return (ERROR);
+	memset(data->dongles, 0, sizeof(t_dongle) * data->nb_coders);
 	i = 0;
 	while (i < data->nb_coders)
 	{
-		data->dongles[i].released_time = 0;
 		pthread_mutex_init(&(data->dongles[i].mutex), NULL);
 		i++;
 	}
+	return (SUCCESS);
 }
 
-static void	fill_coders(t_data *data)
+static int	init_coders(t_data *data)
 {
 	int	i;
 
+	data->coders = (t_coder *)malloc(sizeof(t_coder) * (data->nb_coders));
+	if (!(data->coders))
+		return (ERROR);
+	memset(data->coders, 0, sizeof(t_coder) * data->nb_coders);
 	i = 0;
 	while (i < data->nb_coders)
 	{
 		data->coders[i].id = i + 1;
-		data->coders[i].times_compiled = 0;
-		data->coders[i].left_dongle = NULL;
 		data->coders[i].right_dongle = &data->dongles[i];
 		data->coders[i].left_dongle = &data->dongles[(i + 1) % data->nb_coders];
 		i++;
 	}
+	return (SUCCESS);
 }
 
 int	fill_dongles_coders(t_data *data)
@@ -36,19 +53,6 @@ int	fill_dongles_coders(t_data *data)
 	if (init_dongles(data) == ERROR)
 		return (ERROR);
 	if (init_coders(data) == ERROR)
-	{
-        int i;
-
-        i = 0;
-        while (i < data->nb_coders)
-        {
-            pthread_mutex_destroy(&data->dongles[i].mutex);
-            i++;
-        }
-		free(data->dongles);
 		return (ERROR);
-	}
-	fill_dongles(data);
-	fill_coders(data);
 	return (SUCCESS);
 }

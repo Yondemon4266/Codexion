@@ -14,7 +14,7 @@ typedef struct s_dongle
 {
 	pthread_mutex_t	mutex;
 	int				released_time;
-	t_coder				*heap[2];
+	int				*heap[2];
 
 }					t_dongle;
 
@@ -42,11 +42,11 @@ typedef struct s_data
 
 }					t_data;
 
-int					parse_data(t_data *data, char **av);
 void				print_data_structure(t_data *data);
-void				init_data(t_data *data);
+void				print_error_arguments(void);
+int					init_all_data(t_data *data, int ac, char **av);
 int					fill_dongles_coders(t_data *data);
-int					init_dongles(t_data *data);
-int					init_coders(t_data *data);
+int					parse_data(t_data *data, char **av);
+void				free_dongles(t_dongle *dongles, int dongle_len);
 
 #endif

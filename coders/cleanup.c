@@ -1,24 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/22 16:25:21 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/22 16:25:22 by aluslu           ###   ########.fr       */
+/*   Created: 2026/04/22 15:22:15 by aluslu            #+#    #+#             */
+/*   Updated: 2026/04/22 16:11:42 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "data.h"
 
-int	main(int ac, char **av)
+void	print_error_arguments(void)
 {
-	t_data data;
+	fprintf(stderr, "Error: Wrong number of arguments\n");
+	fprintf(stderr,
+			("Usage: ./coders nb_coders t_burnout t_compile "
+				"t_debug t_refactor nb_comp t_cooldown scheduler\n"));
+}
 
-	if (init_all_data(&data, ac, av + 1) == ERROR)
-		return (EXIT_FAILURE);
-	print_data_structure(&data);
+void	free_dongles(t_dongle *dongles, int dongle_len)
+{
+	int i;
 
-	return (EXIT_SUCCESS);
+	i = 0;
+	while (i < dongle_len)
+	{
+		pthread_mutex_destroy(&dongles[i].mutex);
+		i++;
+	}
+	free(dongles);
 }
