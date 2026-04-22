@@ -10,11 +10,14 @@
 # define SUCCESS 0
 # define ERROR 1
 
+
+struct s_coder;
+
 typedef struct s_dongle
 {
 	pthread_mutex_t	mutex;
 	int				released_time;
-	int				*heap[2];
+	struct s_coder	*queue[2];
 
 }					t_dongle;
 

@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 16:25:14 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/22 17:04:47 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/22 17:31:32 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ static int	init_dongles(t_data *data)
 	while (i < data->nb_coders)
 	{
 		pthread_mutex_init(&(data->dongles[i].mutex), NULL);
+		data->dongles[i].queue[0] = NULL;
+		data->dongles[i].queue[1] = NULL;
 		i++;
 	}
 	return (SUCCESS);
