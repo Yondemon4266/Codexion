@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 16:25:34 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/22 16:25:35 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/22 20:28:31 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,4 @@ void	print_data_structure(t_data *data)
 	printf("📅 scheduler                   : %s\n",
 		data->scheduler ? data->scheduler : "NULL");
 	printf("==========================================\n\n");
-	int i;
-
-	i = 0;
-	while (i < data->nb_coders)
-	{
-		printf("Coder %d: ", data->coders[i].id);
-		i++;
-	}
-	i = 0;
-	while (i < data->nb_coders)
-	{
-		printf("\ndongle release time: %d", data->dongles[i].released_time);
-		i++;
-	}
 }

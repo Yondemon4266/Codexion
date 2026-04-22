@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 15:22:15 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/22 17:22:43 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/22 21:51:34 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static void	free_dongles(t_dongle *dongles, int dongle_len)
 
 void	cleanup_all(t_data *data)
 {
+	pthread_mutex_destroy(&data->stop_lock);
 	free_dongles(data->dongles, data->nb_coders);
 	free(data->coders);
 }

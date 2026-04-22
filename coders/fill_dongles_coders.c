@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 16:25:14 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/22 17:31:32 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/22 23:11:47 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ static int	init_dongles(t_data *data)
 	i = 0;
 	while (i < data->nb_coders)
 	{
-		pthread_mutex_init(&(data->dongles[i].mutex), NULL);
+		if (pthread_mutex_init(&(data->dongles[i].mutex), NULL) != 0)
+			return (ERROR);
 		data->dongles[i].queue[0] = NULL;
 		data->dongles[i].queue[1] = NULL;
 		i++;
@@ -42,6 +43,7 @@ static int	init_coders(t_data *data)
 	i = 0;
 	while (i < data->nb_coders)
 	{
+		data->coders->data = data;
 		data->coders[i].id = i + 1;
 		data->coders[i].right_dongle = &data->dongles[i];
 		data->coders[i].left_dongle = &data->dongles[(i + 1) % data->nb_coders];

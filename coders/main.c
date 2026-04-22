@@ -6,11 +6,13 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 16:25:21 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/22 17:23:24 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/22 22:28:35 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "data.h"
+
+
 
 int	main(int ac, char **av)
 {
@@ -22,6 +24,11 @@ int	main(int ac, char **av)
 		return (EXIT_FAILURE);
 	}
 	print_data_structure(&data);
+	if (run_monitor(&data) == ERROR)
+	{
+		cleanup_all(&data);
+		return (EXIT_FAILURE);
+	}
 	cleanup_all(&data);
 	
 

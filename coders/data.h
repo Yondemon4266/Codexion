@@ -6,6 +6,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
+# include <sys/time.h>
 
 # define SUCCESS 0
 # define ERROR 1
@@ -28,6 +29,7 @@ typedef struct s_coder
 	int				times_compiled;
 	t_dongle		*left_dongle;
 	t_dongle		*right_dongle;
+	t_data			*data;
 }					t_coder;
 
 typedef struct s_data
@@ -40,6 +42,9 @@ typedef struct s_data
 	int				number_of_compiles_required;
 	int				dongle_cooldown;
 	char			*scheduler;
+	pthread_t		monitor;
+	int				stop_simulation;
+	pthread_mutex_t	stop_lock;
 	t_coder			*coders;
 	t_dongle		*dongles;
 
@@ -51,5 +56,7 @@ int					init_all_data(t_data *data, int ac, char **av);
 int					fill_dongles_coders(t_data *data);
 int					parse_data(t_data *data, char **av);
 void				cleanup_all(t_data *data);
+void				*routine(void *arg);
+int	    			run_monitor(t_data *data);
 
 #endif
