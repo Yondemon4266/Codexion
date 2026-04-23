@@ -12,17 +12,19 @@
 # define ERROR 1
 
 
-struct s_coder;
+typedef struct s_coder t_coder;
+
+typedef struct s_data t_data;
 
 typedef struct s_dongle
 {
 	pthread_mutex_t	mutex;
 	int				released_time;
-	struct s_coder	*queue[2];
+	t_coder			*queue[2];
 
 }					t_dongle;
 
-typedef struct s_coder
+struct s_coder
 {
 	pthread_t		coder;
 	int				id;
@@ -30,9 +32,9 @@ typedef struct s_coder
 	t_dongle		*left_dongle;
 	t_dongle		*right_dongle;
 	t_data			*data;
-}					t_coder;
+};
 
-typedef struct s_data
+struct s_data
 {
 	int				nb_coders;
 	int				time_to_burnout;
@@ -43,12 +45,14 @@ typedef struct s_data
 	int				dongle_cooldown;
 	char			*scheduler;
 	pthread_t		monitor;
+	int				start_simulation;
+	pthread_mutex_t	start_lock;
 	int				stop_simulation;
 	pthread_mutex_t	stop_lock;
 	t_coder			*coders;
 	t_dongle		*dongles;
 
-}					t_data;
+};
 
 void				print_data_structure(t_data *data);
 void				print_error_arguments(void);
@@ -56,7 +60,5 @@ int					init_all_data(t_data *data, int ac, char **av);
 int					fill_dongles_coders(t_data *data);
 int					parse_data(t_data *data, char **av);
 void				cleanup_all(t_data *data);
-void				*routine(void *arg);
-int	    			run_monitor(t_data *data);
 
 #endif

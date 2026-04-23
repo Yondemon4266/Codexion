@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 16:25:18 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/22 23:11:26 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/23 11:57:15 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int	init_all_data(t_data *data, int ac, char **av)
 	}
 	memset(data, 0, sizeof(t_data));
 	if (pthread_mutex_init(&data->stop_lock, NULL) != 0)
+		return (ERROR);
+	if (pthread_mutex_init(&data->start_lock, NULL) != 0)
 		return (ERROR);
 	if (parse_data(data, av) == ERROR)
 		return (ERROR);
