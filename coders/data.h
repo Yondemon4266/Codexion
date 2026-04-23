@@ -47,6 +47,7 @@ struct s_data
 	pthread_t		monitor;
 	int				start_simulation;
 	pthread_mutex_t	start_lock;
+	pthread_cond_t	start_cond;
 	int				stop_simulation;
 	pthread_mutex_t	stop_lock;
 	t_coder			*coders;

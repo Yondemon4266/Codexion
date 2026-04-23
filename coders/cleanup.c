@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 15:22:15 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/23 11:57:39 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/23 18:59:42 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	cleanup_all(t_data *data)
 {
 	pthread_mutex_destroy(&data->stop_lock);
 	pthread_mutex_destroy(&data->start_lock);
+	pthread_cond_destroy(&data->start_cond);
 	free_dongles(data->dongles, data->nb_coders);
 	free(data->coders);
 }

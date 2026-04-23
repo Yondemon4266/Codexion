@@ -28,7 +28,7 @@ clean:
 
 $(BUILD_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -g -c $< -o $@
 
 -include $(DEPS)
 fclean: clean
@@ -39,6 +39,5 @@ re: fclean all
 chleak: 
 	valgrind --leak-check=full --show-leak-kinds=all ./codexion 4 800 200 200 200 5 100 fifo
 	
-valg:
 
 .PHONY: all clean fclean re
