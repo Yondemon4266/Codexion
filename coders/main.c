@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 16:25:21 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/23 13:00:25 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/23 13:02:17 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	*routine_coder(void *arg)
 {
 	t_coder *coder = (t_coder *)arg;
-	
+	/* A IMPLEMENTER*/
 }
 
 void	*routine_monitor(void *arg)
@@ -31,13 +31,16 @@ void	*routine_monitor(void *arg)
 	while (created_threads < data->nb_coders)
 	{
 		if (pthread_create(&data->coders[created_threads].coder, NULL, &routine_coder, data->coders) != 0)
+		{
+			/* A IMPLEMENTER*/
+		}
 		created_threads++;
 	}
 	
 	while (i < created_threads)
 	{
 		if (pthread_join(data->coders[i].coder, NULL) != 0)
-			
+			continue ;
 		i++;
 	}
 }
