@@ -6,13 +6,17 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 16:25:21 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/23 12:13:42 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/23 13:00:25 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "data.h"
 
-
+void	*routine_coder(void *arg)
+{
+	t_coder *coder = (t_coder *)arg;
+	
+}
 
 void	*routine_monitor(void *arg)
 {
@@ -20,11 +24,19 @@ void	*routine_monitor(void *arg)
 	data = (t_data *) arg;
 	
 	int	i;
+	int	created_threads;
 
+	created_threads = 0;
 	i = 0;
-	while (i < data->nb_coders)
+	while (created_threads < data->nb_coders)
 	{
-		if (pthread_create(&data->coders[i], NULL, &coder_routine) != 0)
+		if (pthread_create(&data->coders[created_threads].coder, NULL, &routine_coder, data->coders) != 0)
+		created_threads++;
+	}
+	
+	while (i < created_threads)
+	{
+		if (pthread_join(data->coders[i].coder, NULL) != 0)
 			
 		i++;
 	}
