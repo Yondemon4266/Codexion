@@ -12,11 +12,6 @@
 
 #include "data.h"
 
-
-
-
-
-
 int	main(int ac, char **av)
 {
 	t_data data;
@@ -27,7 +22,7 @@ int	main(int ac, char **av)
 		return (EXIT_FAILURE);
 	}
 	print_data_structure(&data);
-	
+
 	run_monitor(&data);
 	cleanup_all(&data);
 

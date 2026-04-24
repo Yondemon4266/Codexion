@@ -12,7 +12,6 @@
 
 #include "data.h"
 
-
 static int	init_dongles(t_data *data)
 {
 	int	i;

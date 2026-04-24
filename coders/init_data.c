@@ -6,14 +6,13 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 16:25:18 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/24 11:31:49 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/24 19:40:45 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "data.h"
 
-
-static	int	init_mutexes_conds(t_data *data)
+static int	init_mutexes_conds(t_data *data)
 {
 	if (pthread_mutex_init(&data->stop_lock, NULL) != 0)
 		return (ERROR);
@@ -21,6 +20,9 @@ static	int	init_mutexes_conds(t_data *data)
 	if (pthread_mutex_init(&data->start_lock, NULL) != 0)
 		return (ERROR);
 	data->init_flags.start_init_flag = 1;
+	if (pthread_mutex_init(&data->print_lock, NULL) != 0)
+		return (ERROR);
+	data->init_flags.print_init_flag = 1;
 	if (pthread_cond_init(&data->start_cond, NULL) != 0)
 		return (ERROR);
 	data->init_flags.start_cond_init_flag = 1;

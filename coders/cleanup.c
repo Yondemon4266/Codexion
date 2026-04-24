@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 15:22:15 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/24 15:08:04 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/24 19:41:46 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	print_error_arguments(void)
 				"t_debug t_refactor nb_comp t_cooldown scheduler\n"));
 }
 
-void	free_coders_mutex(t_data *data, int	offset)
+void	free_coders_mutex(t_data *data, int offset)
 {
 	int	i;
 
@@ -34,10 +34,10 @@ void	free_coders_mutex(t_data *data, int	offset)
 
 static void	free_dongles(t_dongle *dongles, int dongle_len)
 {
+	int	i;
+
 	if (!dongles)
 		return ;
-	int i;
-
 	i = 0;
 	while (i < dongle_len)
 	{
@@ -55,9 +55,10 @@ void	cleanup_all(t_data *data)
 		pthread_mutex_destroy(&data->start_lock);
 	if (data->init_flags.start_cond_init_flag == 1)
 		pthread_cond_destroy(&data->start_cond);
+	if (data->init_flags.print_init_flag == 1)
+		pthread_mutex_destroy(&data->print_lock);
 	if (data->init_flags.coders_lock_flag == 1)
 		free_coders_mutex(data, data->nb_coders);
 	free_dongles(data->dongles, data->nb_coders);
 	free(data->coders);
 }
-

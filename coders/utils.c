@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 16:25:34 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/24 16:29:50 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/24 17:50:52 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,14 @@ int	check_simulation_status(t_data *data)
 	pthread_mutex_lock(&data->stop_lock);
 	status = data->stop_simulation;
 	pthread_mutex_unlock(&data->stop_lock);
-	
 	return (status);
+}
+
+long long	get_current_time_ms(void)
+{
+	struct timeval time;
+
+	if (gettimeofday(&time, NULL) == -1)
+		return (-1);
+	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
