@@ -16,6 +16,8 @@ typedef struct s_coder t_coder;
 
 typedef struct s_data t_data;
 
+typedef struct s_init_flags t_init_flags;
+
 typedef struct s_dongle
 {
 	pthread_mutex_t	mutex;
@@ -29,10 +31,30 @@ struct s_coder
 	pthread_t		coder;
 	int				id;
 	int				times_compiled;
+	int				last_compile_start;
 	t_dongle		*left_dongle;
 	t_dongle		*right_dongle;
 	t_data			*data;
+	pthread_mutex_t	coder_lock;
 };
+
+
+struct s_init_flags
+{
+	int	start_init_flag;
+	int	start_cond_init_flag;
+	int	stop_init_flag;
+	int	coders_lock_flag;
+
+};
+
+typedef struct s_simulation_state
+{
+	int	sim_failed;
+	int	burned_out;
+	int	count_created_threads;
+
+} t_simulation_state;
 
 struct s_data
 {
@@ -52,8 +74,13 @@ struct s_data
 	pthread_mutex_t	stop_lock;
 	t_coder			*coders;
 	t_dongle		*dongles;
-
+	t_init_flags	init_flags;
+	t_simulation_state	simulation_state;
+	struct timeval	simulation_start_time;
 };
+
+
+
 
 void				print_data_structure(t_data *data);
 void				print_error_arguments(void);
@@ -61,5 +88,10 @@ int					init_all_data(t_data *data, int ac, char **av);
 int					fill_dongles_coders(t_data *data);
 int					parse_data(t_data *data, char **av);
 void				cleanup_all(t_data *data);
+int 				run_monitor(t_data *data);
+void				*routine_coder(void *arg);
+void				free_coders_mutex(t_data *data, int	offset);
+int					check_simulation_status(t_data *data);
+
 
 #endif

@@ -1,35 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   monitor_tracking.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/22 16:25:21 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/24 14:14:46 by aluslu           ###   ########.fr       */
+/*   Created: 2026/04/24 15:47:54 by aluslu            #+#    #+#             */
+/*   Updated: 2026/04/24 16:34:33 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "data.h"
 
-
-
-
-
-
-int	main(int ac, char **av)
+void    track_burnout(t_data *data)
 {
-	t_data data;
+    int i;
 
-	if (init_all_data(&data, ac, av + 1) == ERROR)
-	{
-		cleanup_all(&data);
-		return (EXIT_FAILURE);
-	}
-	print_data_structure(&data);
-	
-	run_monitor(&data);
-	cleanup_all(&data);
-
-	return (EXIT_SUCCESS);
+    i = 0;
+    if (get_time(data) == SUCCESS)
+    {
+        while (check_simulation_status(data) == 0)
+        {
+            while (i < data->nb_coders)
+            {
+                
+                i++;
+            }
+        }
+    }
 }

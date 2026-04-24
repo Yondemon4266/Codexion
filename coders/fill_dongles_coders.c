@@ -6,11 +6,12 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 16:25:14 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/22 23:11:47 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/24 15:07:04 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "data.h"
+
 
 static int	init_dongles(t_data *data)
 {
@@ -43,12 +44,18 @@ static int	init_coders(t_data *data)
 	i = 0;
 	while (i < data->nb_coders)
 	{
-		data->coders->data = data;
+		data->coders[i].data = data;
 		data->coders[i].id = i + 1;
 		data->coders[i].right_dongle = &data->dongles[i];
 		data->coders[i].left_dongle = &data->dongles[(i + 1) % data->nb_coders];
+		if (pthread_mutex_init(&data->coders[i].coder_lock, NULL) != 0)
+		{
+			free_coders_mutex(data, i);
+			return (ERROR);
+		}
 		i++;
 	}
+	data->init_flags.coders_lock_flag = 1;
 	return (SUCCESS);
 }
 

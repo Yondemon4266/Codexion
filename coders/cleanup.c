@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 15:22:15 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/23 18:59:42 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/24 15:08:04 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,17 @@ void	print_error_arguments(void)
 				"t_debug t_refactor nb_comp t_cooldown scheduler\n"));
 }
 
+void	free_coders_mutex(t_data *data, int	offset)
+{
+	int	i;
 
+	i = 0;
+	while (i < offset)
+	{
+		pthread_mutex_destroy(&data->coders[i].coder_lock);
+		i++;
+	}
+}
 
 static void	free_dongles(t_dongle *dongles, int dongle_len)
 {
@@ -39,9 +49,14 @@ static void	free_dongles(t_dongle *dongles, int dongle_len)
 
 void	cleanup_all(t_data *data)
 {
-	pthread_mutex_destroy(&data->stop_lock);
-	pthread_mutex_destroy(&data->start_lock);
-	pthread_cond_destroy(&data->start_cond);
+	if (data->init_flags.stop_init_flag == 1)
+		pthread_mutex_destroy(&data->stop_lock);
+	if (data->init_flags.start_init_flag == 1)
+		pthread_mutex_destroy(&data->start_lock);
+	if (data->init_flags.start_cond_init_flag == 1)
+		pthread_cond_destroy(&data->start_cond);
+	if (data->init_flags.coders_lock_flag == 1)
+		free_coders_mutex(data, data->nb_coders);
 	free_dongles(data->dongles, data->nb_coders);
 	free(data->coders);
 }
