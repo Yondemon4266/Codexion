@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/24 14:13:13 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/24 19:43:20 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/24 20:36:10 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,10 @@ void	*routine_coder(void *arg)
 	while (check_simulation_status(coder->data) == 0)
 	{
 		print_coder(coder);
-		break ;
+		pthread_mutex_lock(&coder->coder_lock);
+		coder->times_compiled++;
+		pthread_mutex_unlock(&coder->coder_lock);
+		usleep(1000);
 	}
 	return (NULL);
 }

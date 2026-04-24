@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/24 15:47:54 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/24 19:12:10 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/24 20:32:10 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,13 @@ static int	coder_check_times_compiled(t_coder *coder)
 
 static int	is_coder_burnt_out(t_coder *coder)
 {
-	long long	current_time;
 	long long	last_compile;
 	long long	time_elapsed;
 
-	current_time = get_current_time_ms();
-	if (current_time == -1)
-		return (ERROR);
 	pthread_mutex_lock(&coder->coder_lock);
 	last_compile = coder->last_compile_start;
 	pthread_mutex_unlock(&coder->coder_lock);
-	time_elapsed = current_time - last_compile;
+	time_elapsed = coder->data->simulation_start_time - last_compile;
 	if (time_elapsed >= coder->data->time_to_burnout)
 		return (2);
 	return (0);
@@ -79,7 +75,8 @@ static int	check_all_coders(t_data *data)
 int	track_burnout(t_data *data)
 {
 	int	status;
-
+	if (init_time_of_coders(data) == ERROR)
+		return (ERROR);
 	while (check_simulation_status(data) == 0)
 	{
 		status = check_all_coders(data);

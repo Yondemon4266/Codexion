@@ -6,18 +6,25 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/24 14:10:38 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/24 19:34:37 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/24 20:34:23 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "data.h"
 
-static void	start_simulation(t_data *data)
+static int	start_simulation(t_data *data)
 {
 	pthread_mutex_lock(&data->start_lock);
 	data->start_simulation = 1;
 	pthread_cond_broadcast(&data->start_cond);
+	data->simulation_start_time = get_current_time_ms();
 	pthread_mutex_unlock(&data->start_lock);
+	if (data->simulation_start_time == -1)
+		return (ERROR);
+	if (data->simulation_state.count_created_threads != data->nb_coders
+		|| data->simulation_state.sim_failed == 1)
+		return (ERROR);
+	return (SUCCESS);
 }
 
 static void	stop_failed_simulation(t_data *data)
@@ -56,13 +63,10 @@ static void	*routine_monitor(void *arg)
 
 	data = (t_data *)arg;
 	create_threads(data);
-	start_simulation(data);
-	if (data->simulation_state.count_created_threads == data->nb_coders
-		&& data->simulation_state.sim_failed == 0)
-	{
-		if ((track_burnout(data)) == ERROR)
-			stop_failed_simulation(data);
-	}
+	if (start_simulation(data) == ERROR)
+		stop_failed_simulation(data);
+	if (track_burnout(data) == ERROR)
+		stop_failed_simulation(data);
 	i = 0;
 	while (i < data->simulation_state.count_created_threads)
 	{

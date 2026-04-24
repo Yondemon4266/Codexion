@@ -46,6 +46,7 @@ struct						s_init_flags
 	int						stop_init_flag;
 	int						print_init_flag;
 	int						coders_lock_flag;
+	int						dongles_flag;
 };
 
 typedef struct s_simulation_state
@@ -91,6 +92,8 @@ void						cleanup_all(t_data *data);
 void						print_error_arguments(void);
 void						*routine_coder(void *arg);
 void						free_coders_mutex(t_data *data, int offset);
+void						free_dongles(t_dongle *dongles, int offset);
 int							track_burnout(t_data *data);
+int							init_time_of_coders(t_data *data);
 
 #endif

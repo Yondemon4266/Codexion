@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 16:25:18 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/24 19:40:45 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/24 19:58:32 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ static int	init_mutexes_conds(t_data *data)
 
 int	init_all_data(t_data *data, int ac, char **av)
 {
+	memset(data, 0, sizeof(t_data));
 	if (ac != 9)
 	{
 		print_error_arguments();
 		return (ERROR);
 	}
-	memset(data, 0, sizeof(t_data));
 	if (parse_data(data, av) == ERROR)
 		return (ERROR);
 	if (fill_dongles_coders(data) == ERROR)
