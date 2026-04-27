@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 16:25:21 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/24 14:14:46 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/27 13:15:48 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,14 @@ int	main(int ac, char **av)
 	}
 	print_data_structure(&data);
 
-	run_monitor(&data);
+	if (run_monitor(&data) == ERROR)
+	{
+		cleanup_all(&data);
+		return (EXIT_FAILURE);
+	}
+	printf("burn out state: %d\n", data.simulation_state.burned_out);
+	printf("success: %d", data.simulation_state.sim_success);
+
 	cleanup_all(&data);
 
 	return (EXIT_SUCCESS);

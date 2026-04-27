@@ -11,7 +11,9 @@
 
 # define SUCCESS 0
 # define ERROR 1
-
+# define BURNED_OUT 2
+# define ALL_COMPILED 3
+# define COMPILING 4
 typedef struct s_coder		t_coder;
 
 typedef struct s_data		t_data;
@@ -31,7 +33,7 @@ struct						s_coder
 	pthread_t				coder;
 	int						id;
 	int						times_compiled;
-	int						last_compile_start;
+	long					last_compile_start;
 	t_dongle				*left_dongle;
 	t_dongle				*right_dongle;
 	t_data					*data;
@@ -52,6 +54,7 @@ struct						s_init_flags
 typedef struct s_simulation_state
 {
 	int						sim_failed;
+	int						sim_success;
 	int						burned_out;
 	int						count_created_threads;
 
@@ -95,5 +98,7 @@ void						free_coders_mutex(t_data *data, int offset);
 void						free_dongles(t_dongle *dongles, int offset);
 int							track_burnout(t_data *data);
 int							init_time_of_coders(t_data *data);
+void						stop_simulation(t_data *data);
+void						stop_failed_simulation(t_data *data);
 
 #endif

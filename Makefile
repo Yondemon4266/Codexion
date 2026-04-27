@@ -3,7 +3,7 @@ NAME = codexion
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -std=c89 -g -D_XOPEN_SOURCE=500 -pthread -MMD -MP
+CFLAGS = -Wall -Wextra -Werror -g -pthread -MMD -MP
 
 SRC = coders
 
