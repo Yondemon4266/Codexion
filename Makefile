@@ -11,7 +11,8 @@ BUILD_DIR = .build
 
 C_FILES = $(SRC)/main.c $(SRC)/parse_data.c $(SRC)/init_data.c \
 		$(SRC)/utils.c $(SRC)/fill_dongles_coders.c $(SRC)/cleanup.c \
-		$(SRC)/monitor.c $(SRC)/monitor_tracking.c $(SRC)/coder_routine.c
+		$(SRC)/monitor.c $(SRC)/monitor_tracking.c $(SRC)/coder_routine.c \
+		$(SRC)/queue_manager.c
 
 O_FILES = $(C_FILES:%.c=$(BUILD_DIR)/%.o)
 

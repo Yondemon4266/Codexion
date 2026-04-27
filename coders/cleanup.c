@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 15:22:15 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/24 19:56:27 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/27 16:46:53 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,18 @@ void	print_error_arguments(void)
 	fprintf(stderr,
 			("Usage: ./coders nb_coders t_burnout t_compile "
 				"t_debug t_refactor nb_comp t_cooldown scheduler\n"));
+}
+
+void	free_coders_cond(t_data *data, int offset)
+{
+	int	i;
+
+	i = 0;
+	while (i < offset)
+	{
+		pthread_cond_destroy(&data->coders[i].wait_compil_cond);
+		i++;
+	}
 }
 
 void	free_coders_mutex(t_data *data, int offset)
@@ -32,7 +44,7 @@ void	free_coders_mutex(t_data *data, int offset)
 	}
 }
 
-void	free_dongles(t_dongle *dongles, int offset)
+void	free_dongles_mutex(t_dongle *dongles, int offset)
 {
 	int	i;
 
@@ -44,7 +56,6 @@ void	free_dongles(t_dongle *dongles, int offset)
 		pthread_mutex_destroy(&dongles[i].mutex);
 		i++;
 	}
-	free(dongles);
 }
 
 void	cleanup_all(t_data *data)
@@ -60,6 +71,9 @@ void	cleanup_all(t_data *data)
 	if (data->init_flags.coders_lock_flag == 1)
 		free_coders_mutex(data, data->nb_coders);
 	if (data->init_flags.dongles_flag == 1)
-		free_dongles(data->dongles, data->nb_coders);
+		free_dongles_mutex(data->dongles, data->nb_coders);
+	if (data->init_flags.coders_cond_flag == 1)
+		free_coders_cond(data, data->nb_coders);
 	free(data->coders);
+	free(data->dongles);
 }

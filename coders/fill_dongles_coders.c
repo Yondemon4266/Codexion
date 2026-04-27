@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 16:25:14 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/27 09:46:19 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/27 16:45:01 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	init_dongles(t_data *data)
 	{
 		if (pthread_mutex_init(&(data->dongles[i].mutex), NULL) != 0)
 		{
-			free_dongles(data->dongles, i);
+			free_dongles_mutex(data->dongles, i);
 			return (ERROR);
 		}
 		data->dongles[i].queue[0] = NULL;
@@ -44,8 +44,8 @@ static int	init_coders(t_data *data)
 	if (!(data->coders))
 		return (ERROR);
 	memset(data->coders, 0, sizeof(t_coder) * data->nb_coders);
-	i = 0;
-	while (i < data->nb_coders)
+	i = -1;
+	while (++i < data->nb_coders)
 	{
 		data->coders[i].data = data;
 		data->coders[i].id = i + 1;
@@ -56,9 +56,14 @@ static int	init_coders(t_data *data)
 			free_coders_mutex(data, i);
 			return (ERROR);
 		}
-		i++;
+		data->init_flags.coders_lock_flag = 1;
+		if (pthread_cond_init(&data->coders[i].wait_compil_cond, NULL) != 0)
+		{
+			free_coders_cond(data, i);
+			return (ERROR);
+		}
+		data->init_flags.coders_cond_flag = 1;
 	}
-	data->init_flags.coders_lock_flag = 1;
 	return (SUCCESS);
 }
 

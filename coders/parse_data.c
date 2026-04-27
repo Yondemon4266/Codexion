@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 16:25:27 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/27 09:45:21 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/27 14:42:01 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,17 @@ int	parse_data(t_data *data, char **av)
 			"Error: Arguments must be positive integers (0 to INT_MAX)\n");
 		return (ERROR);
 	}
-
 	if (strcmp(av[7], "fifo") == 0 || strcmp(av[7], "edf") == 0)
-		data->scheduler = av[7];
+	{
+		if (strcmp(av[7], "fifo") == 0)
+			data->scheduler = MODE_FIFO;
+		else
+			data->scheduler = MODE_EDF;
+	}
 	else
 	{
 		fprintf(stderr, "Error: Scheduler must be 'edf' or 'fifo'\n");
 		return (ERROR);
 	}
-
 	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 16:25:34 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/27 10:21:14 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/27 16:46:37 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ void	print_data_structure(t_data *data)
 	printf("✅ compiles_required           : %d\n",
 		data->number_of_compiles_required);
 	printf("🧊 dongle_cooldown             : %d ms\n", data->dongle_cooldown);
-	printf("📅 scheduler                   : %s\n",
-		data->scheduler ? data->scheduler : "NULL");
 	printf("==========================================\n\n");
 }
 
