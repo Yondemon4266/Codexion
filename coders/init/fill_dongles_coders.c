@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 16:25:14 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/27 22:37:02 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/27 22:57:17 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,11 @@ static int	init_dongles(t_data *data)
 	return (SUCCESS);
 }
 
-static int	init_coders(t_data *data)
+
+static int init_coders_data(t_data *data)
 {
 	int	i;
 
-	data->coders = (t_coder *)malloc(sizeof(t_coder) * (data->nb_coders));
-	if (!(data->coders))
-		return (ERROR);
-	memset(data->coders, 0, sizeof(t_coder) * data->nb_coders);
 	i = -1;
 	while (++i < data->nb_coders)
 	{
@@ -56,14 +53,31 @@ static int	init_coders(t_data *data)
 			free_coders_mutex(data, i);
 			return (ERROR);
 		}
-		data->init_flags.coders_lock_flag = 1;
 		if (pthread_cond_init(&data->coders[i].wait_compil_cond, NULL) != 0)
 		{
 			free_coders_cond(data, i);
+			free_coders_mutex(data, i + 1);
 			return (ERROR);
 		}
-		data->init_flags.coders_cond_flag = 1;
 	}
+	return (SUCCESS);
+}
+
+static int	init_coders(t_data *data)
+{
+
+	data->coders = (t_coder *)malloc(sizeof(t_coder) * (data->nb_coders));
+	if (!(data->coders))
+		return (ERROR);
+		
+	memset(data->coders, 0, sizeof(t_coder) * data->nb_coders);
+	
+	if (init_coders_data(data) == ERROR)
+		return (ERROR);
+		
+	data->init_flags.coders_lock_flag = 1;
+	data->init_flags.coders_cond_flag = 1;
+
 	return (SUCCESS);
 }
 
