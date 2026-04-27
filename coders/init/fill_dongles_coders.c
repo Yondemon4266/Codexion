@@ -6,11 +6,11 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 16:25:14 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/27 16:45:01 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/27 22:37:02 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "data.h"
+#include "../data.h"
 
 static int	init_dongles(t_data *data)
 {

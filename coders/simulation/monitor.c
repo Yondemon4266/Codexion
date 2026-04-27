@@ -6,11 +6,11 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/24 14:10:38 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/27 13:53:57 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/27 22:36:44 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "data.h"
+#include "../data.h"
 
 void	stop_failed_simulation(t_data *data)
 {

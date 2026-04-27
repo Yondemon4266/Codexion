@@ -6,11 +6,11 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/24 14:13:13 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/27 17:25:19 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/27 22:36:51 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "data.h"
+#include "../data.h"
 
 
 // static void	print_coder(t_coder *coder, char *s)
@@ -45,29 +45,29 @@ static void	increment_compilation(t_coder *coder)
 	update_last_compile_start_time(coder);
 }
 
-static int can_i_compile(t_coder *coder)
-{
-    int can_compile = 0;
-    t_dongle *first = coder->left_dongle;
-    t_dongle *second = coder->right_dongle;
+// static int can_i_compile(t_coder *coder)
+// {
+//     int can_compile = 0;
+//     t_dongle *first = coder->left_dongle;
+//     t_dongle *second = coder->right_dongle;
 
-    if (first > second)
-    {
-        first = coder->right_dongle;
-        second = coder->left_dongle;
-    }
+//     if (first > second)
+//     {
+//         first = coder->right_dongle;
+//         second = coder->left_dongle;
+//     }
 
-    pthread_mutex_lock(&first->mutex);
-    pthread_mutex_lock(&second->mutex);
+//     pthread_mutex_lock(&first->mutex);
+//     pthread_mutex_lock(&second->mutex);
 
-    if (coder->left_dongle->queue[0] == coder && coder->right_dongle->queue[0] == coder)
-        can_compile = 1;
+//     if (coder->left_dongle->queue[0] == coder && coder->right_dongle->queue[0] == coder)
+//         can_compile = 1;
 
-    pthread_mutex_unlock(&second->mutex);
-    pthread_mutex_unlock(&first->mutex);
+//     pthread_mutex_unlock(&second->mutex);
+//     pthread_mutex_unlock(&first->mutex);
 
-    return (can_compile);
-}
+//     return (can_compile);
+// }
 
 void	*routine_coder(void *arg)
 {
@@ -92,8 +92,8 @@ void	*routine_coder(void *arg)
 		pthread_mutex_unlock(&coder->right_dongle->mutex);
 
 		pthread_mutex_lock(&coder->coder_lock);
-		while (can_i_compile(coder) == 0)
-			pthread_cond_wait(&coder->wait_compil_cond, &coder->coder_lock);
+		// while (can_i_compile(coder) == 0)
+		// 	pthread_cond_wait(&coder->wait_compil_cond, &coder->coder_lock);
 		pthread_mutex_unlock(&coder->coder_lock);
 		if (check_simulation_status(coder->data) != 0)
 			break ;

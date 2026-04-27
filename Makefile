@@ -7,12 +7,23 @@ CFLAGS = -Wall -Wextra -Werror -g -pthread -MMD -MP
 
 SRC = coders
 
+INIT = coders/init
+
+SIMULATION = $(SRC)/simulation
+
+SCHEDULER = $(SRC)/scheduler
+
+UTILS = $(SRC)/utils
+
 BUILD_DIR = .build
 
-C_FILES = $(SRC)/main.c $(SRC)/parse_data.c $(SRC)/init_data.c \
-		$(SRC)/utils.c $(SRC)/fill_dongles_coders.c $(SRC)/cleanup.c \
-		$(SRC)/monitor.c $(SRC)/monitor_tracking.c $(SRC)/coder_routine.c \
-		$(SRC)/queue_manager.c
+C_FILES = $(SRC)/main.c \
+		$(INIT)/fill_dongles_coders.c $(INIT)/parse_data.c $(INIT)/init_data.c \
+		$(SIMULATION)/monitor.c $(SIMULATION)/monitor_tracking.c \
+		$(SIMULATION)/coder_routine.c $(SIMULATION)/coder_actions.c \
+		$(SCHEDULER)/queue_manager.c \
+		$(UTILS)/cleanup.c $(UTILS)/status.c $(UTILS)/time.c \
+		$(UTILS)/print.c
 
 O_FILES = $(C_FILES:%.c=$(BUILD_DIR)/%.o)
 

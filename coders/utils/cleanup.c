@@ -6,19 +6,12 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 15:22:15 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/27 16:46:53 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/27 22:36:36 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "data.h"
+#include "../data.h"
 
-void	print_error_arguments(void)
-{
-	fprintf(stderr, "Error: Wrong number of arguments\n");
-	fprintf(stderr,
-			("Usage: ./coders nb_coders t_burnout t_compile "
-				"t_debug t_refactor nb_comp t_cooldown scheduler\n"));
-}
 
 void	free_coders_cond(t_data *data, int offset)
 {
@@ -58,7 +51,7 @@ void	free_dongles_mutex(t_dongle *dongles, int offset)
 	}
 }
 
-void	cleanup_all(t_data *data)
+static void	cleanup_global_mutexes(t_data *data)
 {
 	if (data->init_flags.stop_init_flag == 1)
 		pthread_mutex_destroy(&data->stop_lock);
@@ -68,12 +61,19 @@ void	cleanup_all(t_data *data)
 		pthread_cond_destroy(&data->start_cond);
 	if (data->init_flags.print_init_flag == 1)
 		pthread_mutex_destroy(&data->print_lock);
+}
+
+void	cleanup_all(t_data *data)
+{
+	cleanup_global_mutexes(data);
 	if (data->init_flags.coders_lock_flag == 1)
 		free_coders_mutex(data, data->nb_coders);
 	if (data->init_flags.dongles_flag == 1)
 		free_dongles_mutex(data->dongles, data->nb_coders);
 	if (data->init_flags.coders_cond_flag == 1)
 		free_coders_cond(data, data->nb_coders);
-	free(data->coders);
-	free(data->dongles);
+	if (data->coders)
+		free(data->coders);
+	if (data->dongles)
+		free(data->dongles);
 }

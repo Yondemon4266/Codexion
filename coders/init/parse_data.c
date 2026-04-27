@@ -6,11 +6,11 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 16:25:27 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/27 14:42:01 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/27 22:37:08 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "data.h"
+#include "../data.h"
 
 static int	ft_custom_atoi(char *s, int *res_out)
 {

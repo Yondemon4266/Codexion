@@ -6,11 +6,11 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 16:25:18 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/24 19:58:32 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/27 22:37:05 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "data.h"
+#include "../data.h"
 
 static int	init_mutexes_conds(t_data *data)
 {
