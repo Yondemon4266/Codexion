@@ -10,13 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../data.h"
-
 
 long long	get_current_time_ms(void)
 {
-	struct timeval time;
+	struct timeval	time;
 
 	if (gettimeofday(&time, NULL) == -1)
 		return (-1);
@@ -26,6 +24,7 @@ long long	get_current_time_ms(void)
 int	init_time_of_coders(t_data *data)
 {
 	int	i;
+
 	i = 0;
 	while (i < data->nb_coders)
 	{

@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 14:37:40 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/27 16:44:56 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/27 23:41:31 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,11 @@ typedef struct s_data		t_data;
 
 typedef struct s_init_flags	t_init_flags;
 
-
-enum e_scheduler {
-    MODE_FIFO,
-    MODE_EDF
+enum						e_scheduler
+{
+	MODE_FIFO,
+	MODE_EDF
 };
-
 
 typedef struct s_dongle
 {
@@ -60,7 +59,6 @@ struct						s_coder
 	struct timeval			time;
 	pthread_mutex_t			coder_lock;
 	pthread_cond_t			wait_compil_cond;
-	
 };
 
 struct						s_init_flags
@@ -107,23 +105,42 @@ struct						s_data
 	long					simulation_start_time;
 };
 
-int							run_monitor(t_data *data);
+/* ---------------------------------- INIT ---------------------------------- */
 int							init_all_data(t_data *data, int ac, char **av);
-int							fill_dongles_coders(t_data *data);
 int							parse_data(t_data *data, char **av);
-int							check_simulation_status(t_data *data);
-long long					get_current_time_ms(void);
-void						print_data_structure(t_data *data);
-void						cleanup_all(t_data *data);
-void						print_error_arguments(void);
+int							fill_dongles_coders(t_data *data);
+
+/* ------------------------------- SIMULATION ------------------------------- */
+int							run_monitor(t_data *data);
+void						stop_simulation(t_data *data);
+void						stop_failed_simulation(t_data *data);
+
+/* ---------------------------- MONITOR TRACKING ---------------------------- */
+int							track_burnout(t_data *data);
+
+/* ----------------------------- CODER ROUTINE ------------------------------ */
 void						*routine_coder(void *arg);
+
+/* ----------------------------- CODER ACTIONS ------------------------------ */
+void						print_coder(t_coder *coder, char *s);
+int							can_i_compile(t_coder *coder);
+void						update_last_compile_start_time(t_coder *coder);
+void						increment_compilation(t_coder *coder);
+
+/* ----------------------------- QUEUE MANAGER ------------------------------ */
+void						request_dongles(t_dongle *left, t_dongle *right,
+								t_coder *coder, enum e_scheduler mode);
+
+/* -------------------------------- CLEANUP --------------------------------- */
+void						cleanup_all(t_data *data);
 void						free_coders_mutex(t_data *data, int offset);
 void						free_coders_cond(t_data *data, int offset);
 void						free_dongles_mutex(t_dongle *dongles, int offset);
-int							track_burnout(t_data *data);
-int							init_time_of_coders(t_data *data);
-void						stop_simulation(t_data *data);
-void						stop_failed_simulation(t_data *data);
-void    					subscribe_to_queue(t_dongle *dongle, t_coder *coder, enum e_scheduler mode);
 
+/* --------------------------------- UTILS ---------------------------------- */
+long long					get_current_time_ms(void);
+int							init_time_of_coders(t_data *data);
+int							check_simulation_status(t_data *data);
+void						print_error_arguments(void);
+void						print_data_structure(t_data *data);
 #endif

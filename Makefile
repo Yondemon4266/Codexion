@@ -21,7 +21,7 @@ C_FILES = $(SRC)/main.c \
 		$(INIT)/fill_dongles_coders.c $(INIT)/parse_data.c $(INIT)/init_data.c \
 		$(SIMULATION)/monitor.c $(SIMULATION)/monitor_tracking.c \
 		$(SIMULATION)/coder_routine.c $(SIMULATION)/coder_actions.c \
-		$(SCHEDULER)/queue_manager.c \
+		$(SCHEDULER)/queue_manager.c $(SCHEDULER)/dongle_actions.c \
 		$(UTILS)/cleanup.c $(UTILS)/status.c $(UTILS)/time.c \
 		$(UTILS)/print.c
 

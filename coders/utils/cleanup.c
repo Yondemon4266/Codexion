@@ -12,7 +12,6 @@
 
 #include "../data.h"
 
-
 void	free_coders_cond(t_data *data, int offset)
 {
 	int	i;

@@ -47,17 +47,17 @@ static int	is_coder_burnt_out(t_coder *coder, long long current_time)
 
 static int	check_all_coders(t_data *data)
 {
-	int	i;
-	int	finished;
-	int	status;
-	long long   current_time;
+	int			i;
+	int			finished;
+	int			status;
+	long long	current_time;
 
 	i = -1;
 	finished = 0;
 	current_time = get_current_time_ms();
-    if (current_time == -1)
+	if (current_time == -1)
 	{
-        return (ERROR);
+		return (ERROR);
 	}
 	while (++i < data->nb_coders)
 	{
@@ -72,10 +72,9 @@ static int	check_all_coders(t_data *data)
 	return (ALL_COMPILED);
 }
 
-
 int	track_burnout(t_data *data)
 {
-	int	status;
+	int status;
 	if (init_time_of_coders(data) == ERROR)
 		return (ERROR);
 	while (check_simulation_status(data) == 0)

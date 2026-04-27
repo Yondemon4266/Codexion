@@ -36,8 +36,7 @@ static int	init_dongles(t_data *data)
 	return (SUCCESS);
 }
 
-
-static int init_coders_data(t_data *data)
+static int	init_coders_data(t_data *data)
 {
 	int	i;
 
@@ -65,19 +64,14 @@ static int init_coders_data(t_data *data)
 
 static int	init_coders(t_data *data)
 {
-
 	data->coders = (t_coder *)malloc(sizeof(t_coder) * (data->nb_coders));
 	if (!(data->coders))
 		return (ERROR);
-		
 	memset(data->coders, 0, sizeof(t_coder) * data->nb_coders);
-	
 	if (init_coders_data(data) == ERROR)
 		return (ERROR);
-		
 	data->init_flags.coders_lock_flag = 1;
 	data->init_flags.coders_cond_flag = 1;
-
 	return (SUCCESS);
 }
 
