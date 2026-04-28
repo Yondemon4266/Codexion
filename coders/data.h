@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 14:37:40 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/27 23:41:31 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/28 15:29:26 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,13 +123,18 @@ void						*routine_coder(void *arg);
 
 /* ----------------------------- CODER ACTIONS ------------------------------ */
 void						print_coder(t_coder *coder, char *s);
-int							can_i_compile(t_coder *coder);
 void						update_last_compile_start_time(t_coder *coder);
 void						increment_compilation(t_coder *coder);
+void						compiling(t_coder *coder);
+void 						debugging(t_coder *coder);
+void 						refactoring(t_coder *coder);
+
 
 /* ----------------------------- QUEUE MANAGER ------------------------------ */
 void						request_dongles(t_dongle *left, t_dongle *right,
 								t_coder *coder, enum e_scheduler mode);
+void						release_dongles(t_coder *coder);
+
 
 /* -------------------------------- CLEANUP --------------------------------- */
 void						cleanup_all(t_data *data);

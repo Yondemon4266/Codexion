@@ -3,7 +3,7 @@ NAME = codexion
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -g -pthread -MMD -MP
+CFLAGS = -Wall -Wextra -Werror -pthread -MMD -MP
 
 SRC = coders
 
@@ -49,8 +49,13 @@ fclean: clean
 
 re: fclean all
 
-chleak: 
-	valgrind --leak-check=full --show-leak-kinds=all ./codexion 4 800 200 200 200 5 100 fifo
-	
+debug: fclean
+	$(MAKE) CFLAGS="-Wall -Wextra -Werror -pthread -MMD -MP -fsanitize=thread -g"
 
-.PHONY: all clean fclean re
+valgrind:
+	valgrind --tool=helgrind ./$(NAME) 4 1700 100 200 200 5 10 fifo
+
+valgrind2:
+	valgrind --tool=drd ./$(NAME) 4 1700 100 200 200 5 10 fifo
+
+.PHONY: all clean fclean re debug valgrind valgrind2
