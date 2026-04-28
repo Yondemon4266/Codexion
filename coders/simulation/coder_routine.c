@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/24 14:13:13 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/28 22:19:50 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/28 22:22:59 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,8 @@ void	*routine_coder(void *arg)
 		compiling(coder);
 		if (release_dongles(coder) == ERROR)
 		{
-			break ;
 			stop_failed_simulation(coder->data);
+			break ;
 		}
 		debugging(coder);
 		refactoring(coder);
