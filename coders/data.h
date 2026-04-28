@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 14:37:40 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/28 16:35:16 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/28 21:34:31 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ enum						e_scheduler
 typedef struct s_dongle
 {
 	pthread_mutex_t			mutex;
-	int						released_time;
+	long long				released_time;
 	t_coder					*queue[2];
 
 }							t_dongle;
@@ -121,9 +121,9 @@ int							track_burnout(t_data *data);
 
 /* ----------------------------- CODER ROUTINE ------------------------------ */
 void						*routine_coder(void *arg);
+void						*routine_one_coder(void *arg);
 
 /* ----------------------------- CODER ACTIONS ------------------------------ */
-void						print_coder(t_coder *coder, char *s);
 void						update_last_compile_start_time(t_coder *coder);
 void						increment_compilation(t_coder *coder);
 void						compiling(t_coder *coder);
@@ -134,7 +134,8 @@ void 						refactoring(t_coder *coder);
 /* ----------------------------- QUEUE MANAGER ------------------------------ */
 void						request_dongles(t_dongle *left, t_dongle *right,
 								t_coder *coder, enum e_scheduler mode);
-void						release_dongles(t_coder *coder);
+int							release_dongles(t_coder *coder);
+int							handle_cooldown(t_coder *coder);
 
 
 /* -------------------------------- CLEANUP --------------------------------- */
@@ -149,4 +150,6 @@ int							init_time_of_coders(t_data *data);
 int							check_simulation_status(t_data *data);
 void						print_error_arguments(void);
 void						print_data_structure(t_data *data);
+void						print_coder(t_coder *coder, char *s);
+
 #endif

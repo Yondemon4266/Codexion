@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/24 14:10:38 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/28 16:26:07 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/28 21:42:58 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,17 @@ static void	create_threads(t_data *data)
 {
 	int	created_threads;
 
+	void *(*routine)(void *);
+
 	created_threads = 0;
+	if (data->nb_coders == 1)
+		routine = &routine_one_coder;
+	else
+		routine = &routine_coder;
 	while (created_threads < data->nb_coders)
 	{
 		if (pthread_create(&data->coders[created_threads].coder, NULL,
-				&routine_coder, &data->coders[created_threads]) != 0)
+				routine, &data->coders[created_threads]) != 0)
 		{
 			data->simulation_state.count_created_threads = created_threads;
 			fprintf(stderr, "Error, coder %d failed at creation",
@@ -56,10 +62,10 @@ static int	start_simulation(t_data *data)
 	create_threads(data);
 	pthread_mutex_lock(&data->start_lock);
 	data->start_simulation = 1;
-	pthread_cond_broadcast(&data->start_cond);
 	data->simulation_start_time = get_current_time_ms();
 	if (init_time_of_coders(data) == ERROR)
 		return (ERROR);
+	pthread_cond_broadcast(&data->start_cond);
 	pthread_mutex_unlock(&data->start_lock);
 	if (data->simulation_start_time == -1)
 		return (ERROR);

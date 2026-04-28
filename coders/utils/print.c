@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 16:25:34 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/27 22:36:27 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/28 22:16:56 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,29 @@ void	print_error_arguments(void)
 	fprintf(stderr,
 			("Usage: ./coders nb_coders t_burnout t_compile "
 				"t_debug t_refactor nb_comp t_cooldown scheduler\n"));
+}
+
+void	print_coder(t_coder *coder, char *s)
+{
+	long long	print_time;
+
+	print_time = get_current_time_ms() - coder->data->simulation_start_time;
+	if (print_time == -1)
+		stop_failed_simulation(coder->data);
+	else
+	{
+		pthread_mutex_lock(&coder->data->print_lock);
+		pthread_mutex_lock(&coder->data->stop_lock);
+		if (coder->data->stop_simulation == 1)
+		{
+			pthread_mutex_unlock(&coder->data->stop_lock);
+			pthread_mutex_unlock(&coder->data->print_lock);
+			return ;
+		}
+		printf("%lld %d %s\n", print_time, coder->id, s);
+		if (strcmp(s, "burned out") == 0)
+			coder->data->stop_simulation = 1;
+		pthread_mutex_unlock(&coder->data->stop_lock);
+		pthread_mutex_unlock(&coder->data->print_lock);
+	}
 }
