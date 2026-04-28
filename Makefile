@@ -53,7 +53,7 @@ debug: fclean
 	$(MAKE) CFLAGS="-Wall -Wextra -Werror -pthread -MMD -MP -fsanitize=thread -g"
 
 valgrind:
-	valgrind --tool=helgrind ./$(NAME) 4 1700 100 200 200 5 10 fifo
+	valgrind --tool=helgrind ./$(NAME)  4 35 20 1 10 2 0 edf
 
 valgrind2:
 	valgrind --tool=drd ./$(NAME) 4 1700 100 200 200 5 10 fifo

@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 14:37:40 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/28 15:29:26 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/28 16:35:16 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ struct						s_coder
 	pthread_t				coder;
 	int						id;
 	int						times_compiled;
+	int						is_compiling;
 	long					last_compile_start;
 	t_dongle				*left_dongle;
 	t_dongle				*right_dongle;

@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/24 15:47:54 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/27 22:36:46 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/28 16:25:58 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,19 @@
 
 void	stop_simulation(t_data *data)
 {
+	int	i;
+	
 	pthread_mutex_lock(&data->stop_lock);
 	data->stop_simulation = 1;
 	pthread_mutex_unlock(&data->stop_lock);
+	i = 0;
+	while (i < data->nb_coders)
+	{
+		pthread_mutex_lock(&data->coders[i].coder_lock);
+		pthread_cond_broadcast(&data->coders[i].wait_compil_cond);
+		pthread_mutex_unlock(&data->coders[i].coder_lock);
+		i++;
+	}
 }
 
 static int	coder_check_times_compiled(t_coder *coder)
@@ -63,7 +73,10 @@ static int	check_all_coders(t_data *data)
 	{
 		status = is_coder_burnt_out(&data->coders[i], current_time);
 		if (status == BURNED_OUT)
+		{
+			print_coder(&data->coders[i], "burned out");
 			return (BURNED_OUT);
+		}
 		if (coder_check_times_compiled(&data->coders[i]) == 1)
 			finished++;
 	}
@@ -75,8 +88,6 @@ static int	check_all_coders(t_data *data)
 int	track_burnout(t_data *data)
 {
 	int status;
-	if (init_time_of_coders(data) == ERROR)
-		return (ERROR);
 	while (check_simulation_status(data) == 0)
 	{
 		status = check_all_coders(data);

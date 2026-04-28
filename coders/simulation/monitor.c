@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/24 14:10:38 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/28 13:28:25 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/28 16:26:07 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,20 @@
 
 void	stop_failed_simulation(t_data *data)
 {
+	int	i;
+	
 	pthread_mutex_lock(&data->stop_lock);
 	data->stop_simulation = 1;
 	data->simulation_state.sim_failed = 1;
 	pthread_mutex_unlock(&data->stop_lock);
+	i = 0;
+	while (i < data->nb_coders)
+	{
+		pthread_mutex_lock(&data->coders[i].coder_lock);
+		pthread_cond_broadcast(&data->coders[i].wait_compil_cond);
+		pthread_mutex_unlock(&data->coders[i].coder_lock);
+		i++;
+	}
 }
 
 static void	create_threads(t_data *data)
@@ -48,6 +58,8 @@ static int	start_simulation(t_data *data)
 	data->start_simulation = 1;
 	pthread_cond_broadcast(&data->start_cond);
 	data->simulation_start_time = get_current_time_ms();
+	if (init_time_of_coders(data) == ERROR)
+		return (ERROR);
 	pthread_mutex_unlock(&data->start_lock);
 	if (data->simulation_start_time == -1)
 		return (ERROR);
