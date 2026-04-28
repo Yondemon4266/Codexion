@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 23:17:49 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/28 21:33:13 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/28 23:26:22 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ static int	release_single_dongle(t_dongle *dongle)
 
 	if (next_coder != NULL)
 	{
-		pthread_mutex_lock(&next_coder->coder_lock);
+		pthread_mutex_lock(&next_coder->wait_lock);
 		pthread_cond_broadcast(&next_coder->wait_compil_cond);
-		pthread_mutex_unlock(&next_coder->coder_lock);
+		pthread_mutex_unlock(&next_coder->wait_lock);
 	}
 	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/24 14:13:13 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/28 22:22:59 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/28 23:25:40 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,9 @@ static int	can_i_compile(t_coder *coder)
 	if (coder->left_dongle->queue[0] == coder
 		&& coder->right_dongle->queue[0] == coder)
 	{
+		pthread_mutex_lock(&coder->coder_lock); 
 		coder->is_compiling = 1;
+		pthread_mutex_unlock(&coder->coder_lock);
 		can_compile = 1;
 	}
 	pthread_mutex_unlock(&second->mutex);
@@ -68,18 +70,17 @@ static int	can_i_compile(t_coder *coder)
 
 static int wait_for_compile(t_coder *coder)
 {
-	pthread_mutex_lock(&coder->coder_lock);
+	pthread_mutex_lock(&coder->wait_lock);
 	while (can_i_compile(coder) == 0)
 	{
 		if (check_simulation_status(coder->data) != 0)
 		{
-			pthread_mutex_unlock(&coder->coder_lock);
+			pthread_mutex_unlock(&coder->wait_lock);
 			return (-1);
 		}
-		pthread_cond_wait(&coder->wait_compil_cond, &coder->coder_lock);
+		pthread_cond_wait(&coder->wait_compil_cond, &coder->wait_lock);
 	}
-	pthread_mutex_unlock(&coder->coder_lock);
-	
+	pthread_mutex_unlock(&coder->wait_lock);
 	if (handle_cooldown(coder) == ERROR 
 		|| check_simulation_status(coder->data) != 0)
 		return (-1);

@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 15:22:15 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/27 22:36:36 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/28 23:22:12 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	free_coders_mutex(t_data *data, int offset)
 	while (i < offset)
 	{
 		pthread_mutex_destroy(&data->coders[i].coder_lock);
+		pthread_mutex_destroy(&data->coders[i].wait_lock);
 		i++;
 	}
 }

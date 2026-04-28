@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/24 14:10:38 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/28 21:42:58 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/28 23:26:44 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ void	stop_failed_simulation(t_data *data)
 	i = 0;
 	while (i < data->nb_coders)
 	{
-		pthread_mutex_lock(&data->coders[i].coder_lock);
+		pthread_mutex_lock(&data->coders[i].wait_lock);
 		pthread_cond_broadcast(&data->coders[i].wait_compil_cond);
-		pthread_mutex_unlock(&data->coders[i].coder_lock);
+		pthread_mutex_unlock(&data->coders[i].wait_lock);
 		i++;
 	}
 }

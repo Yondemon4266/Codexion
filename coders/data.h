@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 14:37:40 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/28 21:34:31 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/28 23:11:41 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ struct						s_coder
 	t_data					*data;
 	struct timeval			time;
 	pthread_mutex_t			coder_lock;
+	pthread_mutex_t			wait_lock;
 	pthread_cond_t			wait_compil_cond;
 };
 
