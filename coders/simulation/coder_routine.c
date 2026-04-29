@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/24 14:13:13 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/29 17:52:52 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/29 21:20:00 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ static int	can_i_compile(t_coder *coder)
 	if (first != second)
 		pthread_mutex_unlock(&second->mutex);
 	pthread_mutex_unlock(&first->mutex);
+	if (first == second)
+		print_coder(coder, "has taken a dongle");
 	return (coder->is_compiling);
 }
 
