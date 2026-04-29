@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 16:25:34 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/29 11:42:33 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/29 17:05:31 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,8 @@ void	print_data_structure(t_data *data)
 void	print_error_arguments(void)
 {
 	fprintf(stderr, "Error: Wrong number of arguments\n");
-	fprintf(stderr,
-			("Usage: ./coders nb_coders t_burnout t_compile "
-				"t_debug t_refactor nb_comp t_cooldown scheduler\n"));
+	fprintf(stderr, ("Usage: ./coders nb_coders t_burnout t_compile "
+			"t_debug t_refactor nb_comp t_cooldown scheduler\n"));
 }
 
 void	print_coder(t_coder *coder, char *s)
@@ -49,7 +48,6 @@ void	print_coder(t_coder *coder, char *s)
 		pthread_mutex_lock(&coder->data->print_lock);
 		pthread_mutex_lock(&coder->data->stop_lock);
 		status = coder->data->simulation_state.burned_out;
-		
 		if (status == 1)
 		{
 			pthread_mutex_unlock(&coder->data->stop_lock);

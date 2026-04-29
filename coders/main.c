@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 16:25:21 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/28 22:12:26 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/29 17:06:09 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	main(int ac, char **av)
 {
-	t_data data;
+	t_data	data;
 
 	if (init_all_data(&data, ac, av + 1) == ERROR)
 	{
@@ -22,13 +22,11 @@ int	main(int ac, char **av)
 		return (EXIT_FAILURE);
 	}
 	print_data_structure(&data);
-
 	if (run_monitor(&data) == ERROR)
 	{
 		cleanup_all(&data);
 		return (EXIT_FAILURE);
 	}
 	cleanup_all(&data);
-
 	return (EXIT_SUCCESS);
 }

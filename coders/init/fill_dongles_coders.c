@@ -6,10 +6,9 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/28 23:21:33 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/29 13:53:05 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/29 17:06:20 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../data.h"
 
@@ -64,8 +63,7 @@ static int	init_coders_data(t_data *data)
 		data->coders[i].data = data;
 		data->coders[i].id = i + 1;
 		data->coders[i].right_dongle = &data->dongles[i];
-		data->coders[i].left_dongle = &data->dongles[(i + 1)
-			% data->nb_coders];
+		data->coders[i].left_dongle = &data->dongles[(i + 1) % data->nb_coders];
 		if (init_coder_primitives(&data->coders[i]) == ERROR)
 		{
 			free_coders_mutex(data, i);

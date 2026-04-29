@@ -1,7 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   coder_actions.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/29 17:10:24 by aluslu            #+#    #+#             */
+/*   Updated: 2026/04/29 17:10:31 by aluslu           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../data.h"
-
-
 
 void	update_last_compile_start_time(t_coder *coder)
 {
@@ -19,8 +28,7 @@ void	increment_compilation(t_coder *coder)
 	pthread_mutex_unlock(&coder->coder_lock);
 }
 
-
-void compiling(t_coder *coder)
+void	compiling(t_coder *coder)
 {
 	update_last_compile_start_time(coder);
 	print_coder(coder, "is compiling");
@@ -28,13 +36,13 @@ void compiling(t_coder *coder)
 	usleep(coder->data->time_to_compile * 1000);
 }
 
-void debugging(t_coder *coder)
+void	debugging(t_coder *coder)
 {
 	print_coder(coder, "is debugging");
 	usleep(coder->data->time_to_debug * 1000);
 }
 
-void refactoring(t_coder *coder)
+void	refactoring(t_coder *coder)
 {
 	print_coder(coder, "is refactoring");
 	usleep(coder->data->time_to_refactor * 1000);

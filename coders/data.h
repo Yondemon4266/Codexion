@@ -6,12 +6,12 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 14:37:40 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/28 23:11:41 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/29 17:05:10 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef __DATA_H
-# define __DATA_H
+#ifndef DATA_H
+# define DATA_H
 
 # include <limits.h>
 # include <pthread.h>
@@ -128,16 +128,14 @@ void						*routine_one_coder(void *arg);
 void						update_last_compile_start_time(t_coder *coder);
 void						increment_compilation(t_coder *coder);
 void						compiling(t_coder *coder);
-void 						debugging(t_coder *coder);
-void 						refactoring(t_coder *coder);
-
+void						debugging(t_coder *coder);
+void						refactoring(t_coder *coder);
 
 /* ----------------------------- QUEUE MANAGER ------------------------------ */
 void						request_dongles(t_dongle *left, t_dongle *right,
 								t_coder *coder, enum e_scheduler mode);
 int							release_dongles(t_coder *coder);
 int							handle_cooldown(t_coder *coder);
-
 
 /* -------------------------------- CLEANUP --------------------------------- */
 void						cleanup_all(t_data *data);

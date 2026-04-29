@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/24 14:10:38 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/29 13:35:58 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/29 17:11:12 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	stop_failed_simulation(t_data *data)
 {
 	int	i;
-	
+
 	pthread_mutex_lock(&data->stop_lock);
 	data->stop_simulation = 1;
 	data->simulation_state.sim_failed = 1;

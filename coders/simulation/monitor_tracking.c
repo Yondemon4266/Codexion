@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/24 15:47:54 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/28 23:27:57 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/29 17:12:01 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	stop_simulation(t_data *data)
 {
 	int	i;
-	
+
 	pthread_mutex_lock(&data->stop_lock);
 	data->stop_simulation = 1;
 	pthread_mutex_unlock(&data->stop_lock);
@@ -66,9 +66,7 @@ static int	check_all_coders(t_data *data)
 	finished = 0;
 	current_time = get_current_time_ms();
 	if (current_time == -1)
-	{
 		return (ERROR);
-	}
 	while (++i < data->nb_coders)
 	{
 		status = is_coder_burnt_out(&data->coders[i], current_time);
@@ -87,7 +85,8 @@ static int	check_all_coders(t_data *data)
 
 int	track_burnout(t_data *data)
 {
-	int status;
+	int	status;
+
 	while (check_simulation_status(data) == 0)
 	{
 		status = check_all_coders(data);
