@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 16:25:34 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/28 22:16:56 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/29 11:15:09 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ void	print_error_arguments(void)
 void	print_coder(t_coder *coder, char *s)
 {
 	long long	print_time;
-
+	int			status;
+	
 	print_time = get_current_time_ms() - coder->data->simulation_start_time;
 	if (print_time == -1)
 		stop_failed_simulation(coder->data);
@@ -47,6 +48,7 @@ void	print_coder(t_coder *coder, char *s)
 	{
 		pthread_mutex_lock(&coder->data->print_lock);
 		pthread_mutex_lock(&coder->data->stop_lock);
+		status = coder->data->simulation_state.burned_out;
 		if (coder->data->stop_simulation == 1)
 		{
 			pthread_mutex_unlock(&coder->data->stop_lock);

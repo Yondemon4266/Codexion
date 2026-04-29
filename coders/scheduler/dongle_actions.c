@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 23:17:49 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/28 23:26:22 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/29 10:41:12 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,18 @@ int handle_cooldown(t_coder *coder)
 	long long l_ready; 
 	long long r_ready;
 	long long wait_time = 0;
-
+	
+	r_ready = 0;
 	pthread_mutex_lock(&coder->left_dongle->mutex);
 	l_ready = coder->left_dongle->released_time + coder->data->dongle_cooldown;
 	pthread_mutex_unlock(&coder->left_dongle->mutex);
 
-	pthread_mutex_lock(&coder->right_dongle->mutex);
-	r_ready = coder->right_dongle->released_time + coder->data->dongle_cooldown;
-	pthread_mutex_unlock(&coder->right_dongle->mutex);
+	if (coder->left_dongle != coder->right_dongle)
+	{
+		pthread_mutex_lock(&coder->right_dongle->mutex);
+		r_ready = coder->right_dongle->released_time + coder->data->dongle_cooldown;
+		pthread_mutex_unlock(&coder->right_dongle->mutex);
+	}
 
 	current_time = get_current_time_ms();
 	if (current_time == -1)
@@ -72,7 +76,10 @@ int	release_dongles(t_coder *coder)
 {
 	if (release_single_dongle(coder->left_dongle) == ERROR)
 		return (ERROR);
-	if (release_single_dongle(coder->right_dongle) == ERROR)
-		return (ERROR);
+	if (coder->left_dongle != coder->right_dongle)
+	{
+		if (release_single_dongle(coder->right_dongle) == ERROR)
+			return (ERROR);
+	}
 	return (SUCCESS);
 }

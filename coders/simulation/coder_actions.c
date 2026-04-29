@@ -24,8 +24,8 @@ void compiling(t_coder *coder)
 {
 	update_last_compile_start_time(coder);
 	print_coder(coder, "is compiling");
-	usleep(coder->data->time_to_compile * 1000);
 	increment_compilation(coder);
+	usleep(coder->data->time_to_compile * 1000);
 }
 
 void debugging(t_coder *coder)

@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/24 14:10:38 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/28 23:26:44 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/29 10:43:31 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,11 @@ static void	create_threads(t_data *data)
 {
 	int	created_threads;
 
-	void *(*routine)(void *);
-
 	created_threads = 0;
-	if (data->nb_coders == 1)
-		routine = &routine_one_coder;
-	else
-		routine = &routine_coder;
 	while (created_threads < data->nb_coders)
 	{
 		if (pthread_create(&data->coders[created_threads].coder, NULL,
-				routine, &data->coders[created_threads]) != 0)
+				routine_coder, &data->coders[created_threads]) != 0)
 		{
 			data->simulation_state.count_created_threads = created_threads;
 			fprintf(stderr, "Error, coder %d failed at creation",

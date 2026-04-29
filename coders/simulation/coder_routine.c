@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/24 14:13:13 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/28 23:25:40 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/29 10:58:18 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,24 +18,6 @@ static void	coders_wait_for_start(t_coder *coder)
 	while (coder->data->start_simulation == 0)
 		pthread_cond_wait(&coder->data->start_cond, &coder->data->start_lock);
 	pthread_mutex_unlock(&coder->data->start_lock);
-}
-
-
-void	*routine_one_coder(void *arg)
-{
-	t_coder	*coder;
-
-	coder = (t_coder *)arg;
-	coders_wait_for_start(coder);
-	
-	pthread_mutex_lock(&coder->left_dongle->mutex);
-	print_coder(coder, "has taken a dongle");
-	
-	while (check_simulation_status(coder->data) == 0)
-		usleep(1000);
-		
-	pthread_mutex_unlock(&coder->left_dongle->mutex);
-	return (NULL);
 }
 
 
@@ -54,8 +36,9 @@ static int	can_i_compile(t_coder *coder)
 		second = coder->left_dongle;
 	}
 	pthread_mutex_lock(&first->mutex);
-	pthread_mutex_lock(&second->mutex);
-	if (coder->left_dongle->queue[0] == coder
+	if (first != second)
+		pthread_mutex_lock(&second->mutex);
+	if (first != second && coder->left_dongle->queue[0] == coder
 		&& coder->right_dongle->queue[0] == coder)
 	{
 		pthread_mutex_lock(&coder->coder_lock); 
@@ -63,7 +46,8 @@ static int	can_i_compile(t_coder *coder)
 		pthread_mutex_unlock(&coder->coder_lock);
 		can_compile = 1;
 	}
-	pthread_mutex_unlock(&second->mutex);
+	if (first != second)
+		pthread_mutex_unlock(&second->mutex);
 	pthread_mutex_unlock(&first->mutex);
 	return (can_compile);
 }
@@ -97,7 +81,7 @@ void	*routine_coder(void *arg)
 	coder = (t_coder *)arg;
 	coders_wait_for_start(coder);
 	if (coder->id % 2 == 0)
-		usleep(2000);
+		usleep(1000);
 	while (check_simulation_status(coder->data) == 0)
 	{
 		request_dongles(coder->left_dongle, coder->right_dongle,
@@ -105,6 +89,9 @@ void	*routine_coder(void *arg)
 		if (wait_for_compile(coder) == -1)
 			break ;
 		compiling(coder);
+		pthread_mutex_lock(&coder->coder_lock);
+		coder->is_compiling = 0;
+		pthread_mutex_unlock(&coder->coder_lock);
 		if (release_dongles(coder) == ERROR)
 		{
 			stop_failed_simulation(coder->data);

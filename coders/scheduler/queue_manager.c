@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   queue_manager.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/28 20:27:01 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/28 23:10:50 by aluslu           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../data.h"
 
 static void	fifo_mode_subscribe(t_dongle *dongle, t_coder *coder)
@@ -20,15 +8,31 @@ static void	fifo_mode_subscribe(t_dongle *dongle, t_coder *coder)
 		dongle->queue[1] = coder;
 }
 
+static int	is_priority(long long my_dl, int my_tc, int my_id, t_coder *other)
+{
+	long long	o_dl;
+
+	o_dl = other->last_compile_start + other->data->time_to_burnout;
+	if (other->is_compiling)
+		return (0);
+	if (my_dl < o_dl)
+		return (1);
+	if (my_dl == o_dl && my_tc < other->times_compiled)
+		return (1);
+	if (my_dl == o_dl && my_tc == other->times_compiled && my_id < other->id)
+		return (1);
+	return (0);
+}
+
 static void	edf_mode_subscribe(t_dongle *dongle, t_coder *coder)
 {
-	long long	my_deadline;
-	long long	other_deadline;
-	int			other_is_compiling;
+	long long	my_dl;
+	int			my_tc;
 	t_coder		*other;
 
 	pthread_mutex_lock(&coder->coder_lock);
-	my_deadline = coder->last_compile_start + coder->data->time_to_burnout;
+	my_dl = coder->last_compile_start + coder->data->time_to_burnout;
+	my_tc = coder->times_compiled;
 	pthread_mutex_unlock(&coder->coder_lock);
 	if (dongle->queue[0] == NULL)
 		dongle->queue[0] = coder;
@@ -36,18 +40,14 @@ static void	edf_mode_subscribe(t_dongle *dongle, t_coder *coder)
 	{
 		other = dongle->queue[0];
 		pthread_mutex_lock(&other->coder_lock);
-		other_deadline = other->last_compile_start
-			+ coder->data->time_to_burnout;
-		other_is_compiling = other->is_compiling;
-		pthread_mutex_unlock(&other->coder_lock);
-		if (!other_is_compiling && (my_deadline < other_deadline 
-			|| (my_deadline == other_deadline && coder->id < other->id)))
+		if (is_priority(my_dl, my_tc, coder->id, other))
 		{
 			dongle->queue[1] = other;
 			dongle->queue[0] = coder;
 		}
 		else
 			dongle->queue[1] = coder;
+		pthread_mutex_unlock(&other->coder_lock);
 	}
 }
 
@@ -66,7 +66,10 @@ void	request_dongles(t_dongle *left, t_dongle *right, t_coder *coder,
 	pthread_mutex_lock(&left->mutex);
 	subscribe_to_queue(left, coder, mode);
 	pthread_mutex_unlock(&left->mutex);
-	pthread_mutex_lock(&right->mutex);
-	subscribe_to_queue(right, coder, mode);
-	pthread_mutex_unlock(&right->mutex);
+	if (left != right)
+	{
+		pthread_mutex_lock(&right->mutex);
+		subscribe_to_queue(right, coder, mode);
+		pthread_mutex_unlock(&right->mutex);
+	}
 }
