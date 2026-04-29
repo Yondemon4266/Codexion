@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/24 14:13:13 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/29 10:58:18 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/29 15:29:19 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,6 @@ void	*routine_coder(void *arg)
 
 	coder = (t_coder *)arg;
 	coders_wait_for_start(coder);
-	if (coder->id % 2 == 0)
-		usleep(1000);
 	while (check_simulation_status(coder->data) == 0)
 	{
 		request_dongles(coder->left_dongle, coder->right_dongle,

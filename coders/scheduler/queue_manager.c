@@ -19,8 +19,15 @@ static int	is_priority(long long my_dl, int my_tc, int my_id, t_coder *other)
 		return (1);
 	if (my_dl == o_dl && my_tc < other->times_compiled)
 		return (1);
-	if (my_dl == o_dl && my_tc == other->times_compiled && my_id < other->id)
-		return (1);
+	if (my_dl == o_dl && my_tc == other->times_compiled)
+	{
+		if ((my_id % 2 != 0) && (other->id % 2 == 0))
+			return (1);
+		if ((my_id % 2 == 0) && (other->id % 2 != 0))
+			return (0);
+		if (my_id < other->id)
+			return (1);
+	}
 	return (0);
 }
 
