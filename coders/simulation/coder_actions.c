@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 17:10:24 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/29 17:10:31 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/29 17:56:47 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,21 @@ void	compiling(t_coder *coder)
 {
 	update_last_compile_start_time(coder);
 	print_coder(coder, "is compiling");
+	ft_usleep(coder->data->time_to_compile, coder->data);
 	increment_compilation(coder);
-	usleep(coder->data->time_to_compile * 1000);
+	pthread_mutex_lock(&coder->coder_lock);
+	coder->is_compiling = 0;
+	pthread_mutex_unlock(&coder->coder_lock);
 }
 
 void	debugging(t_coder *coder)
 {
 	print_coder(coder, "is debugging");
-	usleep(coder->data->time_to_debug * 1000);
+	ft_usleep(coder->data->time_to_debug, coder->data);
 }
 
 void	refactoring(t_coder *coder)
 {
 	print_coder(coder, "is refactoring");
-	usleep(coder->data->time_to_refactor * 1000);
+	ft_usleep(coder->data->time_to_refactor, coder->data);
 }

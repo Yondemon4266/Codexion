@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/24 14:13:13 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/29 17:10:52 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/29 17:52:52 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,6 @@ void	*routine_coder(void *arg)
 		if (wait_for_compile(coder) == -1)
 			break ;
 		compiling(coder);
-		pthread_mutex_lock(&coder->coder_lock);
-		coder->is_compiling = 0;
-		pthread_mutex_unlock(&coder->coder_lock);
 		if (release_dongles(coder) == ERROR)
 		{
 			stop_failed_simulation(coder->data);

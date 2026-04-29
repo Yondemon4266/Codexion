@@ -51,7 +51,6 @@ re: fclean all
 
 debug: fclean
 	$(MAKE) CFLAGS="-Wall -Wextra -Werror -pthread -MMD -MP -fsanitize=thread -g"
-
 valgrind:
 	valgrind --tool=helgrind ./$(NAME)  4 35 20 1 10 2 0 edf
 valgrind2:

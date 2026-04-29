@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 14:37:40 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/29 17:05:10 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/29 17:56:10 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,5 +150,6 @@ int							check_simulation_status(t_data *data);
 void						print_error_arguments(void);
 void						print_data_structure(t_data *data);
 void						print_coder(t_coder *coder, char *s);
+int							ft_usleep(long long time_in_ms, t_data *data);
 
 #endif
