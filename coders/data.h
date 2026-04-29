@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 14:37:40 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/29 17:56:10 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/29 21:01:02 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,6 @@ int							track_burnout(t_data *data);
 
 /* ----------------------------- CODER ROUTINE ------------------------------ */
 void						*routine_coder(void *arg);
-void						*routine_one_coder(void *arg);
 
 /* ----------------------------- CODER ACTIONS ------------------------------ */
 void						update_last_compile_start_time(t_coder *coder);
