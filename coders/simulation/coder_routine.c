@@ -6,7 +6,7 @@
 /*   By: aluslu <aluslu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/24 14:13:13 by aluslu            #+#    #+#             */
-/*   Updated: 2026/04/29 21:27:35 by aluslu           ###   ########.fr       */
+/*   Updated: 2026/04/30 08:55:16 by aluslu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,13 @@ static void	coders_wait_for_start(t_coder *coder)
 	while (coder->data->start_simulation == 0)
 		pthread_cond_wait(&coder->data->start_cond, &coder->data->start_lock);
 	pthread_mutex_unlock(&coder->data->start_lock);
+}
+
+static void	set_compiling_status(t_coder *coder)
+{
+	pthread_mutex_lock(&coder->coder_lock);
+	coder->is_compiling = 1;
+	pthread_mutex_unlock(&coder->coder_lock);
 }
 
 static int	can_i_compile(t_coder *coder)
@@ -37,11 +44,7 @@ static int	can_i_compile(t_coder *coder)
 		pthread_mutex_lock(&second->mutex);
 	if (first != second && coder->left_dongle->queue[0] == coder
 		&& coder->right_dongle->queue[0] == coder)
-	{
-		pthread_mutex_lock(&coder->coder_lock);
-		coder->is_compiling = 1;
-		pthread_mutex_unlock(&coder->coder_lock);
-	}
+		set_compiling_status(coder);
 	if (first != second)
 		pthread_mutex_unlock(&second->mutex);
 	pthread_mutex_unlock(&first->mutex);
