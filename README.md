@@ -72,3 +72,56 @@ The simulation relies on several `pthreads` primitives to coordinate actions bet
 6.  **Releasing Dongles:** After compiling, the coder locks the dongles' mutexes again, removes itself from their queues, and broadcasts on the condition variable to wake up the next waiting coder.
 
 This combination of mutexes and condition variables prevents race conditions and ensures that coders can communicate and access shared resources (dongles, logs, and monitor state) in a safe and organized way.
+
+## Some tests for the code
+
+
+### Invalid tests:
+
+Scheduler not fifo or edf.
+```shell
+./codexion 5 800 200 200 200 7 10 abc
+```
+Negative numbers
+```shell
+./codexion -5 800 200 200 200 7 10 edf
+```
+Integers over INT_MAX (2147483647)
+```shell
+./codexion 2 800 200 200 2147483648 7 10 edf
+```
+Missing arguments (all arguments are mandatory).
+```shell
+./codexion 5 800 200 200
+```
+
+### Valid tests:
+
+Unique coder (burnout unavoidable, can't compile with only 1 dongle).
+```shell
+./codexion 1 800 200 200 200 7 10 edf
+```
+
+Burnout with many coders.
+```shell
+./codexion 4 310 200 200 200 7 10 fifo
+```
+
+Can survive with these parameters:
+```shell
+./codexion 5 800 200 200 200 7 10 edf
+```
+
+0 compilation test:
+```shell
+./codexion 5 800 200 200 200 0 10 edf
+```
+Cooldown high:
+```shell
+./codexion 4 400 200 200 200 5 150 edf
+```
+
+Pressure tests on EDF with 200 coders in a tight timing:
+```shell
+./codexion 200 400 60 60 60 5 10 edf
+```
